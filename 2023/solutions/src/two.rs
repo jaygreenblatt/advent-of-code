@@ -1,19 +1,17 @@
 /**
  * Advent of Code 2023 Day 2 solution.
  */
+use std::collections::HashMap;
 
- use std::fs::File;
- use std::io::{self, BufRead};
- use std::path::Path;
- use std::collections::HashMap;
+use regex::Regex;
 
- use regex::Regex;
+use crate::reader;
 
-fn main() {
-    let filename: &str = "./input.txt";
+pub fn part_one() {
+    let filename: &str = "./inputs/two.txt";
     let mut sum: u32 = 0;
 
-    let colors = ["red", "blue", "green"];    
+    let colors = ["red", "blue", "green"];
     let mut maxes: HashMap<&str, u32> = HashMap::new();
     let mut regexes: HashMap<&str, Regex> = HashMap::new();
 
@@ -28,7 +26,7 @@ fn main() {
     regexes.insert("green", Regex::new(r"\d+ green").unwrap());
 
     // Read the file into lines.
-    if let Ok(lines) = read_lines(filename) {
+    if let Ok(lines) = reader::read_lines(filename) {
         let mut i = 1;
         // Consumes the iterator, returns an (Optional) String
         for line in lines {
@@ -40,7 +38,9 @@ fn main() {
 
                 let matches: Vec<_> = reg.find_iter(l.as_str()).map(|m| m.as_str()).collect();
                 for m in matches {
-                    let num: u32 = m.split(" ").collect::<Vec<&str>>()[0].parse::<u32>().unwrap();
+                    let num: u32 = m.split(" ").collect::<Vec<&str>>()[0]
+                        .parse::<u32>()
+                        .unwrap();
                     if num > max_allowed {
                         is_possible_game = false;
                     }
@@ -55,16 +55,4 @@ fn main() {
     }
 
     println!("The sum is {}.", sum);
-}
-
-
-
-
-// Taken from the documentation.
-// https://doc.rust-lang.org/rust-by-example/std_misc/file/read_lines.html
-// Returns an Iterator to the Reader of the lines of the file.
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
 }
