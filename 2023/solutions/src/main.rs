@@ -1,6 +1,6 @@
-mod one;
 mod reader;
-mod two;
+#[path = "days/one.rs"] mod one;
+#[path = "days/two.rs"] mod two;
 
 fn main() {
     one::solution();
