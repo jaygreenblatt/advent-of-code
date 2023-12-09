@@ -31,5 +31,5 @@ pub fn solution() {
         }
     }
 
-    println!("The sum is {}.", sum);
+    println!("[1] The sum is {}.", sum);
 }

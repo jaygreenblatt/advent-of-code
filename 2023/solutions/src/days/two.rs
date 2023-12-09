@@ -67,7 +67,7 @@ pub fn part_one() {
         }
     }
 
-    println!("The sum is {}.", sum);
+    println!("[2a] The sum is {}.", sum);
 }
 
 
@@ -95,5 +95,5 @@ pub fn part_two() {
         }
     }
 
-    println!("The sum is {}.", sum); 
+    println!("[2b] The sum is {}.", sum); 
 }
