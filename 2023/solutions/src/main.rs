@@ -7,5 +7,6 @@ fn main() {
     one::solution();
     two::part_one();
     two::part_two();
-    three::solution();
+    three::part_one();
+    three::part_two();
 }
