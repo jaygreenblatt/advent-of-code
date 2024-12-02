@@ -1,10 +1,12 @@
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
+use std::collections::HashMap;
 
 const FILENAME: &str = "src/input.txt";
 
 fn main() -> io::Result<()> {
     puzzle_one()?;
+    puzzle_two()?;
 
     Ok(())
 }
@@ -14,9 +16,35 @@ fn puzzle_one() -> io::Result<()> {
     let distance = calculate_total_distance(x_coords, y_coords);
 
     println!("Puzzle One Solution");
-    println!("The total distance is: {}", distance);
+    println!("The total distance is: {}\n", distance);
 
     Ok(())
+}
+
+fn puzzle_two() -> io::Result<()> {
+   let (x_coords, y_coords) = parse_location_ids_from_file(FILENAME)?; 
+   let frequency_map = count_frequencies(&y_coords);
+
+   // Calculate the sum of each x_coord times the frequency of its corresponding y_coord
+   let similarity_score: i32 = x_coords.iter()
+        .map(|&x| x * frequency_map.get(&x).copied().unwrap_or(0))
+        .sum();
+
+    println!("Puzzle Two Solution");
+    println!("The similarity score is: {}", similarity_score);
+
+   Ok(())
+}
+
+fn count_frequencies(numbers: &[i32]) -> HashMap<i32, i32> {
+    let mut frequency_map = HashMap::new();
+
+    // Count each number's frequency
+    for &num in numbers {
+        *frequency_map.entry(num).or_insert(0) += 1;
+    }
+
+    frequency_map
 }
 
 fn calculate_total_distance(mut x_values: Vec<i32>, mut y_values: Vec<i32>) -> i32 {
