@@ -5,6 +5,7 @@ const FILENAME: &str = "src/input.txt";
 
 fn main() -> io::Result<()> {
     puzzle_one()?;
+    puzzle_two()?;
 
     Ok(())
 }
@@ -17,12 +18,45 @@ fn puzzle_one() -> io::Result<()> {
     for line in reader.lines() {
         let line = line?;
         let report = parse_line(&line).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-        if is_safe(report) {
+        if is_safe(&report) {
             num_safe_reports += 1;
         }
     }
 
     println!("Puzzle One Solution:");
+    println!("The number of safe reports is {}", num_safe_reports);
+
+    Ok(())
+}
+
+fn puzzle_two() -> io::Result<()> {
+   let file = File::open(FILENAME)?;
+    let reader = BufReader::new(file);
+    let mut num_safe_reports = 0; 
+
+    for line in reader.lines() {
+        let line = line?;
+        let report = parse_line(&line).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+        if is_safe(&report) {
+            num_safe_reports += 1;
+            continue;
+        }
+        for i in 0..report.len() {
+            let new_report: Vec<i32> = report[..i]
+                .iter()
+                .chain(&report[i + 1..])
+                .cloned()
+                .collect();
+
+            if is_safe(&new_report) {
+                num_safe_reports += 1;
+                break;
+            }
+        }
+    }
+
+
+    println!("Puzzle Two Solution:");
     println!("The number of safe reports is {}", num_safe_reports);
 
     Ok(())
@@ -35,7 +69,7 @@ fn parse_line(line: &str) -> Result<Vec<i32>, std::num::ParseIntError> {
         .collect()
 }
 
-fn is_safe(report: Vec<i32>) -> bool {
+fn is_safe(report: &Vec<i32>) -> bool {
     if report[0] == report[1] {
         return false;
     }
