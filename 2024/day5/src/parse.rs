@@ -1,15 +1,13 @@
+use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::collections::{HashMap, HashSet};
 
 const FILENAME: &str = "input.txt";
 
-
 pub struct ParseResult {
     pub graph: HashMap<i32, HashSet<i32>>,
-    pub updates: Vec<Vec<i32>>
+    pub updates: Vec<Vec<i32>>,
 }
-
 
 pub fn parse_file() -> ParseResult {
     let file = File::open(FILENAME).unwrap();
@@ -33,10 +31,7 @@ pub fn parse_file() -> ParseResult {
         graph.entry(to).or_insert_with(HashSet::new).insert(from); // Avoids explicit check if the key exists
     }
 
-    ParseResult {
-        graph,
-        updates
-    }
+    ParseResult { graph, updates }
 }
 
 fn parse_edge(line: &str) -> (i32, i32) {
@@ -47,16 +42,13 @@ fn parse_edge(line: &str) -> (i32, i32) {
     (to, from)
 }
 
-
 fn parse_update(line: &str) -> Vec<i32> {
     let mut update: Vec<i32> = Vec::new();
 
     let split: Vec<&str> = line.split(",").collect();
 
     for s in split {
-        update.push(
-            s.parse::<i32>().unwrap()
-        )
+        update.push(s.parse::<i32>().unwrap())
     }
 
     update
