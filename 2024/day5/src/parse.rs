@@ -27,8 +27,8 @@ pub fn parse_file() -> ParseResult {
             continue;
         }
 
-        let (to, from) = parse_edge(&line);
-        graph.entry(to).or_insert_with(HashSet::new).insert(from); // Avoids explicit check if the key exists
+        let (from, to) = parse_edge(&line);
+        graph.entry(from).or_insert_with(HashSet::new).insert(to); // Avoids explicit check if the key exists
     }
 
     ParseResult { graph, updates }
@@ -36,10 +36,10 @@ pub fn parse_file() -> ParseResult {
 
 fn parse_edge(line: &str) -> (i32, i32) {
     let split: (&str, &str) = line.split_once("|").unwrap();
-    let to = split.0.parse::<i32>().unwrap();
-    let from = split.1.parse::<i32>().unwrap();
+    let from = split.0.parse::<i32>().unwrap();
+    let to = split.1.parse::<i32>().unwrap();
 
-    (to, from)
+    (from, to)
 }
 
 fn parse_update(line: &str) -> Vec<i32> {
