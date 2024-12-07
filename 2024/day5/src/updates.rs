@@ -37,7 +37,9 @@ pub fn get_mini_graph(big_graph: &HashMap<i32, HashSet<i32>>, update: &Vec<i32>)
     for from in update {
         let tos = big_graph.get(from).unwrap();
         for to in tos.iter() {
-            mini_graph.entry(*from).or_insert_with(HashSet::new).insert(*to);
+            if update.contains(to) {
+                mini_graph.entry(*from).or_insert_with(HashSet::new).insert(*to);
+            }
         }
     }
 

@@ -23,6 +23,6 @@ fn puzzle_one(parse_result: &ParseResult) {
 fn puzzle_two(parse_result: &ParseResult) {
     let total = updates::get_total_for_reordered_updates(&parse_result.graph, &parse_result.updates);
 
-    print!("Puzzle Two Solution:");
+    println!("Puzzle Two Solution:");
     println!("The total is {}", total);
 }

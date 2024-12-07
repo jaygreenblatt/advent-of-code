@@ -24,13 +24,17 @@ pub fn run_topological_sort(graph: &HashMap<i32, HashSet<i32>>) -> Vec<i32> {
     while !queue.is_empty() {
         let from = queue.pop_front().unwrap();
         sorted.push(from);
+        let tos = graph.get(&from);
+        if tos.is_none() {
+            continue;
+        }
         for to in &graph[&from] {
-            *indegrees.get_mut(&from).expect("Value should exist") -= 1;
-            if *indegrees.get(&from).unwrap() == 0 {
+            *indegrees.get_mut(&to).expect("Value should exist") -= 1;
+            if *indegrees.get(&to).unwrap() == 0 {
                 queue.push_back(*to);
             }
         }
     }
-    
+
     sorted
 }
