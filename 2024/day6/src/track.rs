@@ -75,22 +75,21 @@ pub fn get_number_of_obstacles_that_result_in_loop(map: &mut Vec<Vec<char>>) -> 
     let starting_position = get_starting_position(map);
     let path = get_path(map, starting_position);
 
-    for i in 0..map.len() {
-        for j in 0..map[0].len() {
-            if !path.contains(&(i as i32, j as i32)) {
-                continue;
-            }
-            if map[i][j] == OBSTACLE {
-                continue;
-            }
-            map[i][j] = OBSTACLE;
 
-            if gets_stuck_in_loop(map, starting_position) {
-                total += 1;
-            }
-
-            map[i][j] = FREE_SPACE;
+    for (i, j) in path.iter() {
+        let i = *i as usize;
+        let j = *j as usize;
+        if map[i][j] == OBSTACLE {
+            continue;
         }
+
+        map[i][j] = OBSTACLE;
+
+        if gets_stuck_in_loop(map, starting_position) {
+            total += 1;
+        }
+
+        map[i][j] = FREE_SPACE;
     }
 
     total
