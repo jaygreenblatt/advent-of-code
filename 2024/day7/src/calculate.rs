@@ -27,11 +27,11 @@ pub fn calibrate_v2(total: i64, curr_total: i64, i: usize, nums: &Vec<i64>) -> i
         return 0;
     }
     
-    let add_result = calibrate(total, curr_total + nums[i], i + 1, nums);
-    let mul_result = calibrate(total, curr_total * nums[i], i + 1, nums);
+    let add_result = calibrate_v2(total, curr_total + nums[i], i + 1, nums);
+    let mul_result = calibrate_v2(total, curr_total * nums[i], i + 1, nums);
 
     let concatenated = concatenate_numbers(curr_total, nums[i]);
-    let concat_result = calibrate(total, concatenated, i + 1, nums);
+    let concat_result = calibrate_v2(total, concatenated, i + 1, nums);
 
     max(max(add_result, mul_result), concat_result)
 }
