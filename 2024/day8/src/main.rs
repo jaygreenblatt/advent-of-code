@@ -3,6 +3,7 @@ mod antinode;
 
 fn main() {
     puzzle_one();
+    puzzle_two();
 }
 
 
